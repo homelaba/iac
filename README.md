@@ -20,3 +20,6 @@ LXC - A Proxmox container is a type of virtualization that allows you to run app
 ### Ansible
 
 for create LXC, install soft, infrastructure preparation
+
+
+Gitlab is used for deployment
