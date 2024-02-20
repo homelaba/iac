@@ -1,0 +1,12 @@
+version: '3'
+
+env:
+  ANSIBLE: 'docker run --rm -it -v .:/ansible --env-file .env ansible'
+
+tasks:
+  lxc_create:
+    dir: '{{.USER_WORKING_DIR}}/ansible'
+    aliases:
+      - lxc
+    cmds:
+      - $ANSIBLE ansible-playbook /ansible/lxc/lxc_create.yaml

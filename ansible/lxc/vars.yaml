@@ -6,7 +6,7 @@ proxmox_api_user: "{{ lookup('env', 'PROXMOX_API_USER') | default('ansible@pam')
 proxmox_api_password: "{{ lookup('env', 'PROXMOX_API_PASSWORD')}}"
 proxmox_api_token_id: "{{ lookup('env', 'PROXMOX_API_TOKEN_ID') | default('id') }}"
 proxmox_api_token_secret: "{{ lookup('env', 'PROXMOX_API_TOKEN')}}"
-proxmox_node: pve3
+proxmox_node: "{{ lookup('env', 'PROXMOX_NODE')| default('pve01')}}"
 
 
 # LXC settings
