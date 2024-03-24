@@ -1,12 +1,39 @@
 version: '3'
 
 env:
-  ANSIBLE: 'docker run --rm -it -v .:/ansible --env-file .env ansible'
+  ANSIBLE: 'docker run --rm -it -v .:/srv --env-file ansible/.env ghcr.io/akmalovaa/iac-tools'
 
 tasks:
-  lxc_create:
-    dir: '{{.USER_WORKING_DIR}}/ansible'
-    aliases:
-      - lxc
+  bash:
     cmds:
-      - $ANSIBLE ansible-playbook /ansible/lxc/lxc_create.yaml
+      - $ANSIBLE bash
+
+  # lxc_create:
+  #   aliases: ["lxc"]
+  #   desc: "create lxc"
+  #   dir: '{{.USER_WORKING_DIR}}/ansible'
+  #   cmds:
+  #     - $ANSIBLE ansible-playbook /ansible/lxc/lxc_create.yaml
+
+  lxc_create:
+    aliases: ["lxc-new"]
+    desc: "create lxc"
+    summary: |
+      vmid in args, command examples :
+          task lxc-new -- 100
+    vars:
+      vmid: '{{.CLI_ARGS | default "100"}}'
+      hostname: 'task-exp'
+    cmds:
+      - $ANSIBLE ansible-playbook ansible/lxc/lxc_create.yaml --extra-vars "vmid={{ .vmid }} hostname={{ .hostname }}"
+
+  lxc_remove:
+    aliases: ["lxc-rm"]
+    desc: "remove lxc"
+    summary: |
+      vmid in args, command examples :
+          task lxc-rm -- 100
+    vars:
+      vmid: '{{.CLI_ARGS}}'
+    cmds:
+      - $ANSIBLE ansible-playbook ansible/lxc/lxc_remove.yaml --extra-vars vmid={{ .vmid }}

@@ -1,12 +1,8 @@
 ---
 - name: 'Remove LXC by ID'
   hosts: localhost
-  vars_prompt:
-    - name: vmid
-      prompt: "vmid (100-254)"
-      private: no
   vars_files:
-    - /ansible/lxc/vars.yaml
+    - /srv/ansible/lxc/vars.yaml
   tasks:
   - name: Stop container with force
     proxmox:

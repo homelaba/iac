@@ -1,0 +1,20 @@
+include: vars.yaml
+
+stages:
+  - deploy
+
+image: ghcr.io/akmalovaa/iac-tools
+
+before_script:
+  - echo "Start deploy traefik server"
+  - pwd
+  - echo "$ANSIBLE_VAULT" > /ansible/vault.key
+  - echo "$SSH_PRIVATE_KEY" > /ansible/ssh/id_rsa
+  - echo "$SSH_PUBLIC_KEY" > /ansible/ssh/id_rsa.pub
+  - chmod -R 400 ./ssh
+
+deploy:
+  stage: deploy
+  script:
+    - ansible-playbook playbook.yaml
+  when: manual

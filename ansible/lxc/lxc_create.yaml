@@ -1,21 +1,8 @@
 ---
 - name: 'Create LXC Proxmox API'
   hosts: localhost
-  vars_prompt:
-    - name: vmid
-      prompt: "vmid (100-254)"
-      private: no
-      default: '100'
-    - name: hostname
-      prompt: "Enter the lxc name"
-      private: no
-      default: 'ansible'
-    - name: docker
-      prompt: "Install docker on your lxc? (yes/no)"
-      private: no
-      default: 'no'
   vars_files:
-    - /ansible/lxc/vars.yaml
+    - /srv/ansible/lxc/vars.yaml
   vars:
     lxc_ip_address: '{{pve_lxc_network}}{{ vmid }}'
   tasks:
@@ -82,9 +69,9 @@
     add_host:
       hostname: '{{ lxc_ip_address }}'
       ansible_ssh_user: 'root'
-      ansible_ssh_private_key_file: '/ansible/ssh/id_rsa'
+      ansible_ssh_private_key_file: '/srv/ansible/ssh/id_rsa'
 
   - name: Prepare lxc - Install docker, docker compose
-    include_tasks: /ansible/lxc/install_docker.yaml
-    when: docker == "yes"
+    include_tasks: /srv/ansible/lxc/install_docker.yaml
+    # when: docker == "yes"
 
