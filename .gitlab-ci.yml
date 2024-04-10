@@ -16,6 +16,6 @@ create-lxc:
   stage: deploy
   script:
     - *ansible_prepare
-    - ansible-playbook ansible/lxc/lxc_create.yaml --extra-vars vmid=$VMID hostname=$NAME
+    - ansible-playbook ansible/lxc/lxc_create.yaml --extra-vars "vmid=$VMID hostname=$NAME"
   rules:
     - if: '$VMID && $NAME'
