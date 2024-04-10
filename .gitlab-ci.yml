@@ -8,7 +8,7 @@ image: ghcr.io/akmalovaa/iac-tools
 .ansible_prepare: &ansible_prepare
     - echo "$ANSIBLE_VAULT" > ansible/vault.key
     - echo "$SSH_PRIVATE_KEY" > ansible/ssh/id_rsa
-    - echo "$SSH_PUBLIC_KEY" > /ansible/ssh/id_rsa.pub
+    - echo "$SSH_PUBLIC_KEY" > ansible/ssh/id_rsa.pub
     - chmod -R 400 ./ansible/ssh
 
 
