@@ -5,16 +5,16 @@ stages:
 
 image: ghcr.io/akmalovaa/iac-tools
 
-before_script:
-  - echo "Start deploy traefik server"
-  - pwd
-  - echo "$ANSIBLE_VAULT" > /ansible/vault.key
-  - echo "$SSH_PRIVATE_KEY" > /ansible/ssh/id_rsa
-  - echo "$SSH_PUBLIC_KEY" > /ansible/ssh/id_rsa.pub
-  - chmod -R 400 ./ssh
+.ansible_prepare: &ansible_prepare
+    - echo "$ANSIBLE_VAULT" > ansible/vault.key
+    - echo "$SSH_PRIVATE_KEY" > ansible/ssh/id_rsa
+    - echo "$SSH_PUBLIC_KEY" > /ansible/ssh/id_rsa.pub
+    - chmod -R 400 ./ansible/ssh
 
-deploy:
+
+create-lxc:
   stage: deploy
   script:
-    - ansible-playbook playbook.yaml
-  when: manual
+    - ansible-playbook ansible/lxc/lxc_create.yaml --extra-vars vmid=$VMID hostname=$NAME
+  rules:
+    - if: '$VMID'

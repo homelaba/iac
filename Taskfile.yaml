@@ -23,7 +23,7 @@ tasks:
           task lxc-new -- 100
     vars:
       vmid: '{{.CLI_ARGS | default "100"}}'
-      hostname: 'task-exp'
+      hostname: 'default'
     cmds:
       - $ANSIBLE ansible-playbook ansible/lxc/lxc_create.yaml --extra-vars "vmid={{ .vmid }} hostname={{ .hostname }}"
 
