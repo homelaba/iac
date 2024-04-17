@@ -23,3 +23,4 @@ pve_lxc_gateway: "{{ lookup('env', 'LXC_GATEWAY') | default('10.0.0.1') }}"
 # LXC create settins
 vmid: "{{ lookup('env', 'VMID') | default(100) | int}}"
 hostname: "{{ lookup('env', 'NAME') | default('hostname') }}"
+lxc_ip_address: '{{pve_lxc_network}}{{ vmid }}'
