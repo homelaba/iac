@@ -17,10 +17,9 @@ create-lxc:
   variables:
     vmid: $VMID
     hostname: $NAME
-    ANSIBLE_CONFIG: "ansible/ansible.cfg"
+    ANSIBLE_CONFIG: "./ansible/ansible.cfg"
   script:
     - *ansible_prepare
-    - echo $PROXMOX_API_USER
     - ansible-playbook ansible/lxc/lxc_create.yaml -vvv
   # rules:
   #   - if: '$VMID && $NAME'
