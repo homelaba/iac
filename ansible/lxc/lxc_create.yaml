@@ -4,6 +4,8 @@
   vars_files:
     - /srv/ansible/lxc/vars.yaml
   vars:
+    hostname: "{{ lookup('env', 'NAME') | default(hostname)}}"
+    vmid: "{{ lookup('env', 'VMID') | default(150) | int }}"
     lxc_ip_address: '{{pve_lxc_network}}{{ vmid }}'
   tasks:
   - name: Create LXC minimal
