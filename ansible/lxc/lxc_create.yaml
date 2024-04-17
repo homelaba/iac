@@ -2,7 +2,7 @@
 - name: 'Create LXC Proxmox API'
   hosts: localhost
   vars_files:
-    - ansible/lxc/vars.yaml
+    - ./ansible/lxc/vars.yaml
   tasks:
   - name: Create LXC minimal
     proxmox:
