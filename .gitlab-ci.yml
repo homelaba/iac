@@ -14,8 +14,11 @@ image: ghcr.io/akmalovaa/iac-tools
 
 create-lxc:
   stage: deploy
+  variables:
+    vmid: $VMID
+    hostname: $NAME
   script:
     - *ansible_prepare
-    - ansible-playbook ansible/lxc/lxc_create.yaml --extra-vars "vmid=$VMID hostname=$NAME"
+    - ansible-playbook ansible/lxc/lxc_create.yaml
   rules:
     - if: '$VMID && $NAME'
