@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  roles:
+    - create-lxc
+
+- hosts: lxc_host
+  roles:
+    - install-docker

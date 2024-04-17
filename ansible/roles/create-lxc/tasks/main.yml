@@ -1,0 +1,70 @@
+---
+- name: Create LXC minimal
+  vars:
+    lxc_ip_address: "{{pve_lxc_network}}{{ vmid }}"
+  proxmox:
+    ##### Proxmox node settings #####
+    api_user: '{{ proxmox_api_user }}'
+    api_password: '{{ proxmox_api_password }}'
+    api_host: '{{ proxmox_api_host }}'
+    ##### LXC settings #####
+    node: '{{ proxmox_node }}'
+    vmid: '{{ vmid }}'
+    hostname: '{{ hostname }}'
+    password: '{{ pve_lxc_root_password }}'
+    pubkey: '{{ pve_lxc_root_authorized_pubkey }}'
+    ostemplate: '{{ pve_lxc_ostemplate }}'
+    cores: 2
+    disk: '{{pve_lxc_disk}}:10'   # storage-name:size(Gb)
+    unprivileged: true 
+    netif: '{"net0":"name=eth0,ip={{ lxc_ip_address }}/24,gw={{ pve_lxc_gateway }},bridge=vmbr0,firewall=yes"}'
+    nameserver: '{{ pve_lxc_dns_server }}'
+    searchdomain: '{{ pve_lxc_domain }}'
+    features: 
+      - nesting=1
+    onboot: true
+    state: 'present'
+    force: true
+    timeout: 30
+  register: result
+  ignore_errors: true
+
+- name: Change LXC resources
+  proxmox:
+    ##### Proxmox node settings #####
+    api_user: '{{ proxmox_api_user }}'
+    api_password: '{{ proxmox_api_password }}'
+    api_host: '{{ proxmox_api_host }}'
+    ##### LXC settings #####
+    node: '{{ proxmox_node }}'
+    vmid: '{{ vmid }}'
+    hostname: '{{ hostname }}'
+    ##### LXC resources #####
+    cores: 4
+    memory: 4096
+    update: true
+    tags:
+      - ansible
+
+- name: Run lxc
+  proxmox:
+    vmid: '{{ vmid }}'
+    api_user: '{{ proxmox_api_user }}'
+    api_password: '{{ proxmox_api_password }}'
+    api_host: '{{ proxmox_api_host }}'
+    state: started
+  register: result_run_lxc
+
+- name: Pause 10 seconds to runing container
+  pause:
+    seconds: 10
+  when: result_run_lxc.changed
+
+- name: Add this lxc as host
+  vars:
+    lxc_ip_address: "{{pve_lxc_network}}{{ vmid }}"
+  add_host:
+    hostname: '{{ lxc_ip_address }}'
+    groups: lxc_host
+    ansible_ssh_user: 'root'
+    ansible_ssh_private_key_file: 'ansible/ssh/id_rsa'

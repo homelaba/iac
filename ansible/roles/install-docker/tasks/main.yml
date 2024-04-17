@@ -1,18 +1,17 @@
 ---
+# tasks file for install docker
 - name: Install aptitude
   tags: install
   apt:
     name: aptitude
     state: latest
     update_cache: true
-  delegate_to: '{{ lxc_ip_address }}'
 
 - name: Update cache & Full system update
   apt:
     update_cache: true
     upgrade: dist
     cache_valid_time: 432000
-  delegate_to: '{{ lxc_ip_address }}'
 
 - name: Install a list of packages
   apt:
@@ -21,24 +20,16 @@
       - ca-certificates 
       - curl 
       - gnupg
-  delegate_to: '{{ lxc_ip_address }}'
 
 - name: Add Docker GPG apt Key
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
-  delegate_to: '{{ lxc_ip_address }}'
-
-- name: Fetch delegated OS release name 
-  shell: echo $(lsb_release -c -s)
-  delegate_to: '{{ lxc_ip_address }}'
-  register: code_name
 
 - name: Add Docker Repository
   apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ code_name.stdout }} stable
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
     state: present
-  delegate_to: '{{ lxc_ip_address }}'
 
 - name: Debian-Based | Install Docker packages
   apt:
@@ -50,4 +41,3 @@
       - docker-compose-plugin
     state: present
     update_cache: yes
-  delegate_to: '{{ lxc_ip_address }}'

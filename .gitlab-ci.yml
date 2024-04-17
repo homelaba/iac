@@ -5,21 +5,19 @@ stages:
 
 image: ghcr.io/akmalovaa/iac-tools
 
+variables:
+  ANSIBLE_CONFIG: "./ansible/ansible.cfg"
+
 .ansible_prepare: &ansible_prepare
     - echo "$ANSIBLE_VAULT" > ansible/vault.key
     - echo "$SSH_PRIVATE_KEY" > ansible/ssh/id_rsa
     - echo "$SSH_PUBLIC_KEY" > ansible/ssh/id_rsa.pub
     - chmod -R 400 ./ansible/ssh
 
-
 create-lxc:
   stage: deploy
-  variables:
-    vmid: $VMID
-    hostname: $NAME
-    ANSIBLE_CONFIG: "./ansible/ansible.cfg"
   script:
     - *ansible_prepare
-    - ansible-playbook ansible/lxc/lxc_create.yaml
+    - ansible-playbook ansible/playbook.yaml
   rules:
     - if: '$VMID && $NAME'
