@@ -2,9 +2,27 @@
 - name: 'Create LXC Proxmox API'
   hosts: localhost
   vars:
+    # LXC create settins
+    vmid: "{{ lookup('env', 'VMID') | default(100) | int}}"
+    hostname: "{{ lookup('env', 'NAME') | default('hostname') }}"
+    # Proxmox settins
     proxmox_api_host: "{{ lookup('env', 'PROXMOX_API_HOST')}}"
     proxmox_api_user: "{{ lookup('env', 'PROXMOX_API_USER') }}"
     proxmox_api_password: "{{ lookup('env', 'PROXMOX_API_PASSWORD')}}"
+    proxmox_api_token_id: "{{ lookup('env', 'PROXMOX_API_TOKEN_ID') | default('id') }}"
+    proxmox_api_token_secret: "{{ lookup('env', 'PROXMOX_API_TOKEN')}}"
+    proxmox_node: "{{ lookup('env', 'PROXMOX_NODE')| default('pve1')}}"
+    # LXC settings
+    pve_lxc_user: root
+    pve_lxc_root_password: "{{ lookup('env', 'LXC_PASSWORD') | default('12345') }}"
+    pve_lxc_root_authorized_pubkey: "{{ lookup('file', '/srv/ansible/ssh/id_rsa.pub') }}"
+    pve_lxc_domain: "{{ lookup('env', 'DOMAIN_NAME') | default('example.com') }}"
+    pve_lxc_disk: "{{ lookup('env', 'LXC_DISK') | default('local') }}" 
+    pve_lxc_ostemplate: "{{ lookup('env', 'LXC_OS_TEMPLATE') | default('local:vztmpl/ubuntu-23.10-standard_23.10-1_amd64.tar.zs') }}"
+    pve_lxc_network: "{{ lookup('env', 'LXC_NETWORK') | default('10.0.0.') }}" 
+    pve_lxc_dns_server: "{{ lookup('env', 'LXC_DNS_SERVER') | default('10.0.0.1') }}"
+    pve_lxc_gateway: "{{ lookup('env', 'LXC_GATEWAY') | default('10.0.0.1') }}"
+    lxc_ip_address: '{{pve_lxc_network}}{{ vmid }}'
   tasks:
   - name: Create LXC minimal
     proxmox:

@@ -20,6 +20,6 @@ create-lxc:
     ANSIBLE_CONFIG: "./ansible/ansible.cfg"
   script:
     - *ansible_prepare
-    - ansible-playbook ansible/lxc/lxc_create.yaml -vvv
-  # rules:
-  #   - if: '$VMID && $NAME'
+    - ansible-playbook ansible/lxc/lxc_create.yaml
+  rules:
+    - if: '$VMID && $NAME'
