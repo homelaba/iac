@@ -19,6 +19,6 @@ create-lxc:
     hostname: $NAME
   script:
     - *ansible_prepare
-    - ansible-playbook ansible/lxc/lxc_create.yaml
+    - ansible-playbook ansible/lxc/lxc_create.yaml -vvv
   rules:
     - if: '$VMID && $NAME'
