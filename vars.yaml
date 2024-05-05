@@ -11,7 +11,7 @@ variables:
   DOMAIN_NAME: akmalov.com
   LXC_PASSWORD: $LXC_PASSWORD
   LXC_DISK: local-lvm
-  LXC_OS_TEMPLATE: Share:vztmpl/ubuntu-24.04-standard_24.04-1_amd64.tar.zst
+  LXC_OS_TEMPLATE: Share:vztmpl/ubuntu-23.10-standard_23.10-1_amd64.tar.zst
   # LXC_NETWORK used for IP ADDRESS LXC and NETWORK. Example 10.0.0.{{VMID}}/24
   LXC_NETWORK: $LXC_NETWORK
   LXC_DNS_SERVER: $LXC_GATEWAY
