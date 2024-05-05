@@ -19,14 +19,29 @@ LXC - A Proxmox container is a type of virtualization that allows you to run app
 - Another layer of security
 - Easier to maintain (if something breaks, it will be inside only this application)
 
-### Ansible
+LXC resources are more convenient to use and manage instead of lifting a virtual machine and deploying everything in one place
+
+
+For convenience, i use:
+- **Base template:** `ubuntu-24.04-standard_24.04-1_amd64.tar.zst`
+- **VMID:** Proxmox Container ID use the range from 100 to 255 as the ID, for the convenience of assigning and controlling an IP address
+- **IP address example:** 10.0.0.$VMID
+
+
+## Ansible
 
 for create LXC, install soft, infrastructure preparation
 Gitlab is used for deployment
 
+## Prepare
+
+### Install Proxmox and create user for Ansible
+
+### Create a LXC and configure Gitlab|Github runner
+
 ## Services
 
-#### Proxy server
+### Proxy server
 
 [Traefik](https://github.com/traefik/traefik) 
 
@@ -34,7 +49,7 @@ Alternatives:
 - [caddy](https://github.com/caddyserver/caddy)
 - [nginx proxy manager](https://github.com/NginxProxyManager/nginx-proxy-manager)
 
-#### DNS
+### DNS
 
 [blocky](https://github.com/0xERR0R/blocky)
 

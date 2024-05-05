@@ -15,7 +15,7 @@
     pubkey: '{{ pve_lxc_root_authorized_pubkey }}'
     ostemplate: '{{ pve_lxc_ostemplate }}'
     cores: 2
-    disk: '{{pve_lxc_disk}}:10'   # storage-name:size(Gb)
+    disk: '{{pve_lxc_disk}}:10'  # storage-name:size(Gb)
     unprivileged: true 
     netif: '{"net0":"name=eth0,ip={{ lxc_ip_address }}/24,gw={{ pve_lxc_gateway }},bridge=vmbr0,firewall=yes"}'
     nameserver: '{{ pve_lxc_dns_server }}'
