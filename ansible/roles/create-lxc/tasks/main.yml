@@ -45,6 +45,7 @@
     update: true
     tags:
       - ansible
+      - iac
 
 - name: Run lxc
   proxmox:
