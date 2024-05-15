@@ -7,10 +7,10 @@ image: ghcr.io/akmalovaa/iac-tools
 
 variables:
   ANSIBLE_CONFIG: "./ansible/ansible.cfg"
-  VMID2:
+  VMID:
     value: ""
     description: VMID 100-255
-  NAME2:
+  NAME:
     value: ""
     description: Container name
 
