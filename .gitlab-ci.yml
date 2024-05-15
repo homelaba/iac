@@ -7,6 +7,12 @@ image: ghcr.io/akmalovaa/iac-tools
 
 variables:
   ANSIBLE_CONFIG: "./ansible/ansible.cfg"
+  VMID2:
+    value: ""
+    description: VMID 100-255
+  NAME2:
+    value: ""
+    description: Container name
 
 .ansible_prepare: &ansible_prepare
     - echo "$ANSIBLE_VAULT" > ansible/vault.key
